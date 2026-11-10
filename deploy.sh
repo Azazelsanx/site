@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # 手动部署兜底（主路径：push 到 GitHub → Cloudflare Workers Builds 自动构建）
+# 资产直接取仓库根目录，.assetsignore 决定哪些不发。
 #
 # 用法：
 #   CLOUDFLARE_API_TOKEN=xxxx ./deploy.sh
@@ -17,5 +18,4 @@ fi
 
 export NODE_OPTIONS=
 
-bash build.sh
 npx --yes wrangler@latest deploy

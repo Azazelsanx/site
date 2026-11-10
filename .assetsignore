@@ -1,5 +1,15 @@
+# 哪些东西不发布到线上（Workers 静态资产以仓库根目录为源）
 .git
+.github
 .gitignore
+.gitattributes
 .assetsignore
+.shots
 _build
+_content
+dist
+node_modules
+*.sh
+*.log
+wrangler.jsonc
 README.md
