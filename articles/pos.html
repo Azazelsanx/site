@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>给店主做的收银机 — Azazel</title>
+<meta name="description" content="给小店做收银软件，教会了我什么。">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23fdfdfc'/%3E%3Cpath d='M13.4 3 5.6 13.2h5L10.1 21l7.9-10.6h-5.2L13.4 3Z' fill='%23111'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<main class="shell">
+
+  <a class="back" href="/">&larr; Azazel</a>
+
+  <article class="prose">
+
+    <header>
+      <h1>给店主做的收银机</h1>
+      <time datetime="2024-07-08">2024 年 7 月 8 日</time>
+    </header>
+
+    <p>大多数软件的使用者是自己选的。而收银系统的使用者是在某个周二被人塞到手里、被告知「你用这个」的人 —— 而且<span class="circled">身后还排着队</span>。</p>
+
+    <p>这个约束会把界面的每个决定都改一遍。</p>
+
+    <h2 id="队伍就是设计任务书">队伍就是设计任务书</h2>
+
+    <p>每一次多余的点击都有目击者。一个在设计评审里看着无害的确认弹窗，就是三秒钟里一个陌生人在看你手忙脚乱。所以规则变成：<mark>常规交易应该是一段连续的动作，只有例外才值得占用注意力。</mark></p>
+
+    <h2 id="数字不是装饰">数字不是装饰</h2>
+
+    <div class="noted">
+      <p>价格、数量、找零 —— 这些是扫一眼就要读出来的，从一个略微不正的角度，在日光灯下。<span class="note-anchor" data-note="tabular" aria-describedby="note-tabular">等宽数字、够大的字号、一行只放一个数</span>。任何让两个金额在快速扫视时看起来相似的设计都是 bug，不是风格选择。</p>
+      <aside class="side-note" id="note-tabular" data-note-for="tabular" role="note" tabindex="0">
+        <span class="side-note__bracket" aria-hidden="true"></span>
+        <span class="side-note__text">这三条我抄进了之后的每个项目</span>
+      </aside>
+    </div>
+
+    <h2 id="错误就是界面"><span class="boxed">错误就是界面</span></h2>
+
+    <p>真正重要的状态，是没人去设计的那些：扫不出来的条码、系统里没有的商品、结账时短了的钱箱。店主不需要一条错误提示，他需要一个下一步动作。每一条失败路径都写成一个「人能照着做」的句子。</p>
+
+    <h2 id="它还长出了什么">它还长出了什么</h2>
+
+    <p>和收银台并行，这些店还需要一种方式，去做供应商反复索要的推广短片；还需要一个地方，存放那些被反复问到的问题的答案。于是又多了两个小工具，都遵守同一条规则：柜台后面那个人是站着的、赶时间的、不会去读提示文字。</p>
+
+    <p>给这样的用户做东西之后，我此后设计的每一个界面都显得解释得太多了。</p>
+
+
+  </article>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__row">
+        <p><a href="/">&larr; 回到首页</a></p>
+        <a class="mark" href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.4 2 5.2 13.4h5.1L9.6 22 18.8 10.5h-5.3L13.4 2Z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  // 跳到 #某处 时闪一块黄，五秒内褪掉。
+  (function () {
+    function highlight() {
+      var id = decodeURIComponent(location.hash.slice(1));
+      Array.prototype.forEach.call(
+        document.querySelectorAll(".target"),
+        function (n) { n.classList.remove("target"); }
+      );
+      if (!id) return;
+      var target = document.getElementById(id);
+      if (!target) return;
+      void target.offsetWidth;
+      target.classList.add("target");
+      setTimeout(function () { target.classList.remove("target"); }, 5000);
+    }
+    highlight();
+    window.addEventListener("hashchange", highlight);
+  })();
+</script>
+
+<script src="/assets/vendor/rough-notation.js"></script>
+<script src="/assets/js/marginalia.js"></script>
+
+</body>
+</html>

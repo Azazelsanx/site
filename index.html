@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Azazel</title>
+<meta name="description" content="做本地优先工具的人。PromptBox、Video2Obsidian 的作者。">
+<meta name="color-scheme" content="light">
+<meta property="og:title" content="Azazel">
+<meta property="og:description" content="做本地优先工具的人。PromptBox、Video2Obsidian 的作者。">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23fdfdfc'/%3E%3Cpath d='M13.4 3 5.6 13.2h5L10.1 21l7.9-10.6h-5.2L13.4 3Z' fill='%23111'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<main class="shell">
+
+  <article class="prose">
+
+    <header>
+      <h1>Azazel</h1>
+      <time datetime="2026-11-09">更新于 2026 年 11 月 9 日</time>
+    </header>
+
+    <p>我生活在中国。</p>
+
+    <p>我做给<span class="circled">「用文字思考的人」</span>用的桌面软件。主要项目是
+      <a class="link" href="/articles/promptbox.html">PromptBox</a> —— 一个用来组织、版本化、复用提示词的应用，Electron、Vue 3 加 IndexedDB。
+      <mark>它最初的动机很朴素：我一天里要把同一段话重写五遍。</mark></p>
+
+    <p>在那之前，我好几年都在做没人要求我做的工具，
+      <a class="link" href="/articles/video2obsidian.html">Video2Obsidian</a> 就是从那儿长出来的：一条本地流水线，把视频变成 Obsidian 里带时间戳的笔记，跑在 Qwen3-ASR 上<sup id="fnref-1"><a href="#fn-1">1</a></sup>，靠显卡加速，全程不联网。</p>
+
+    <div class="noted">
+      <p>真正让我在意的东西，大多落在<span class="note-anchor" data-note="gap" aria-describedby="note-gap">写作和软件之间那道缝</span>里 —— 文字怎么变成结构，结构又怎么退到不挡路的位置。为此写过一篇短的：<em>不是模板，是变量系统</em>。</p>
+      <aside class="side-note" id="note-gap" data-note-for="gap" role="note" tabindex="0">
+        <span class="side-note__bracket" aria-hidden="true"></span>
+        <span class="side-note__text">我每个项目都长在这条缝里</span>
+      </aside>
+    </div>
+
+    <p>写代码之外，我收集界面，就像别人收集唱片。<mark>我宁愿重写自己的工具，也不愿去学怎么用别人的。</mark></p>
+
+    <p>你可以在 <a class="link" href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>
+      和 <a class="link" href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a>
+      找到我。</p>
+
+  </article>
+
+  <section class="posts">
+    <h3 class="posts__title">写作</h3>
+    <ul>
+
+      <li>
+        <ul>
+          <li>
+            <a class="post" href="/articles/promptbox.html">
+              <h2>PromptBox<span class="flag">新</span></h2>
+              <time datetime="2026-10-18"><span>18/10</span><span>/</span><span>2026</span></time>
+            </a>
+          </li>
+          <li>
+            <a class="post" href="/articles/variable-systems.html">
+              <h2>不是模板，是变量系统</h2>
+              <time datetime="2026-09-02"><span>02/09</span><span>/</span><span>2026</span></time>
+            </a>
+          </li>
+          <li>
+            <a class="post" href="/articles/video2obsidian.html">
+              <h2>Video2Obsidian</h2>
+              <time datetime="2026-04-21"><span>21/04</span><span>/</span><span>2026</span></time>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <ul>
+          <li>
+            <a class="post" href="/articles/local-first.html">
+              <h2>本地优先这几件事</h2>
+              <time datetime="2025-11-20"><span>20/11</span><span>/</span><span>2025</span></time>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <ul>
+          <li>
+            <a class="post" href="/articles/pos.html">
+              <h2>给店主做的收银机</h2>
+              <time datetime="2024-07-08"><span>08/07</span><span>/</span><span>2024</span></time>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="footnotes">
+    <h2>注</h2>
+    <ol>
+      <li id="fn-1">0.6B 参数版本，在消费级独立显卡上跑，两小时的视频十几分钟出初稿。
+        <a class="link" href="#fnref-1">回到正文</a></li>
+    </ol>
+  </section>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__row">
+        <p><span class="clock" id="clock"></span> · UTC+8</p>
+        <a class="mark" href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.4 2 5.2 13.4h5.1L9.6 22 18.8 10.5h-5.3L13.4 2Z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  // ---- 滚动时钟 -------------------------------------------------------
+  // 每一位数字是一个单字宽度的窗口；数值变了，旧字上滑、新字从下方补位。
+  (function () {
+    var el = document.getElementById("clock");
+    if (!el) return;
+    var prev = null;
+    var EASE = "cubic-bezier(.19,1,.22,1)";
+    var DUR = 420;
+
+    function read() {
+      return new Intl.DateTimeFormat("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "Asia/Shanghai"
+      }).format(new Date());
+    }
+
+    function build(str) {
+      el.textContent = "";
+      str.split("").forEach(function (c) {
+        var node = document.createElement("span");
+        if (/[0-9]/.test(c)) {
+          node.className = "digit";
+          var inner = document.createElement("span");
+          inner.textContent = c;
+          node.appendChild(inner);
+        } else {
+          node.className = "static";
+          node.textContent = c;
+        }
+        el.appendChild(node);
+      });
+    }
+
+    function render(str) {
+      var chars = str.split("");
+      if (!prev || prev.length !== chars.length) {
+        build(str);
+        prev = chars;
+        return;
+      }
+      for (var i = 0; i < chars.length; i++) {
+        if (prev[i] === chars[i]) continue;
+        var box = el.children[i];
+        if (!box || !/[0-9]/.test(chars[i])) {
+          if (box) box.textContent = chars[i];
+        } else {
+          var incoming = document.createElement("span");
+          incoming.textContent = chars[i];
+          var outgoing = box.lastElementChild;
+          box.appendChild(incoming);
+          var anim = incoming.animate(
+            [{ transform: "translateY(100%)" }, { transform: "translateY(0)" }],
+            { duration: DUR, easing: EASE }
+          );
+          anim.onfinish = function (node) {
+            return function () {
+              node.style.transform = "none";
+              node.getAnimations().forEach(function (a) { a.cancel(); });
+            };
+          }(incoming);
+          if (outgoing && outgoing !== incoming) {
+            outgoing.animate(
+              [{ transform: "translateY(0)" }, { transform: "translateY(-100%)" }],
+              { duration: DUR, easing: EASE, fill: "forwards" }
+            );
+            setTimeout(function (n) {
+              return function () {
+                if (n.parentNode) n.parentNode.removeChild(n);
+              };
+            }(outgoing), DUR + 60);
+          }
+        }
+        prev[i] = chars[i];
+      }
+    }
+
+    render(read());
+    setInterval(function () { render(read()); }, 4000);
+  })();
+
+  // ---- 锚点高亮 -------------------------------------------------------
+  // 跳到 #某处 时闪一块黄，五秒内褪掉。
+  (function () {
+    function highlight() {
+      var id = decodeURIComponent(location.hash.slice(1));
+      Array.prototype.forEach.call(
+        document.querySelectorAll(".target"),
+        function (n) { n.classList.remove("target"); }
+      );
+      if (!id) return;
+      var target = document.getElementById(id);
+      if (!target) return;
+      void target.offsetWidth;
+      target.classList.add("target");
+      setTimeout(function () { target.classList.remove("target"); }, 5000);
+    }
+    highlight();
+    window.addEventListener("hashchange", highlight);
+  })();
+</script>
+
+<script src="/assets/vendor/rough-notation.js"></script>
+<script src="/assets/js/marginalia.js"></script>
+</body>
+</html>

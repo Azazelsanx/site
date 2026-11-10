@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>本地优先这几件事 — Azazel</title>
+<meta name="description" content="为什么我做的工具总是把数据留在你机器上。">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23fdfdfc'/%3E%3Cpath d='M13.4 3 5.6 13.2h5L10.1 21l7.9-10.6h-5.2L13.4 3Z' fill='%23111'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<main class="shell">
+
+  <a class="back" href="/">&larr; Azazel</a>
+
+  <article class="prose">
+
+    <header>
+      <h1>本地优先这几件事</h1>
+      <time datetime="2025-11-20">2025 年 11 月 20 日</time>
+    </header>
+
+    <p>我给自己做的每个工具最后都成了本地优先，而我花了很久才把它说清楚，说清楚的部分里没有「不想付服务器钱」。</p>
+
+    <h2 id="延迟是一个功能">延迟是一个功能</h2>
+
+    <p>一个八毫秒给出答案的应用，和一个三百毫秒给出答案的应用，差别不在性能指标上。差别在于你会不会在思考的中途继续用它。<mark>一个会在你思路中间顿一下的工具，会被安静地弃用，然后你告诉自己本来也不需要它。</mark></p>
+
+    <p>本地读取是即时的。没有转圈需要被设计绕着走，没有骨架屏，没有乐观更新要回滚。</p>
+
+    <h2 id="所有权是一个功能">所有权是一个功能</h2>
+
+    <p>当数据是你磁盘上的文件，它就比应用活得久。你可以备份、可以 grep、可以用你本来就在用的方式同步、可以在十年后用文本编辑器打开。当数据是别人数据库里的行，它的寿命就是一个<span class="circled">你没有投票权的商业决策</span>。</p>
+
+    <div class="noted">
+      <p>我见过足够多的服务关停，所以不再把<span class="note-anchor" data-note="export" aria-describedby="note-export">「我们会提供导出」</span>当作承诺。<mark>导出总是比原来那个东西差。</mark></p>
+      <aside class="side-note" id="note-export" data-note-for="export" role="note" tabindex="0">
+        <span class="side-note__bracket" aria-hidden="true"></span>
+        <span class="side-note__text">营业到最后一刻的通知，见过太多</span>
+      </aside>
+    </div>
+
+    <h2 id="离线是一个功能">离线是一个功能</h2>
+
+    <p>不是出于浪漫的理由，是出于最普通的理由：飞机上、高铁上、酒店 wifi 很烂的时候、路由器需要重启的时候。一个在网络断掉时就罢工的笔记工具，正好在你终于有时间用它的时候罢工。</p>
+
+    <h2 id="代价-说实话">代价，说实话</h2>
+
+    <p>本地优先不是免费的。你要放弃：开箱即用的同步、不用想的多设备、分享一个链接、以及靠卖存储收订阅费的可能。两台设备编辑同一份东西的那一刻，冲突解决就成了你的问题，而 CRDT 是一笔实打实的工程税。</p>
+
+    <p>对一台机器上的单用户工具来说，上面这些全是零。这就是我一直在做的取舍 —— 也是我每个项目都从「数据住在哪」开始，而不是从「表结构长什么样」开始的原因。</p>
+
+    <blockquote>
+      <p>先把存储这件事设计好。界面是跟着它走的，不是反过来。</p>
+    </blockquote>
+
+
+  </article>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__row">
+        <p><a href="/">&larr; 回到首页</a></p>
+        <a class="mark" href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.4 2 5.2 13.4h5.1L9.6 22 18.8 10.5h-5.3L13.4 2Z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  // 跳到 #某处 时闪一块黄，五秒内褪掉。
+  (function () {
+    function highlight() {
+      var id = decodeURIComponent(location.hash.slice(1));
+      Array.prototype.forEach.call(
+        document.querySelectorAll(".target"),
+        function (n) { n.classList.remove("target"); }
+      );
+      if (!id) return;
+      var target = document.getElementById(id);
+      if (!target) return;
+      void target.offsetWidth;
+      target.classList.add("target");
+      setTimeout(function () { target.classList.remove("target"); }, 5000);
+    }
+    highlight();
+    window.addEventListener("hashchange", highlight);
+  })();
+</script>
+
+<script src="/assets/vendor/rough-notation.js"></script>
+<script src="/assets/js/marginalia.js"></script>
+
+</body>
+</html>

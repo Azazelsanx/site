@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PromptBox — Azazel</title>
+<meta name="description" content="一个用来组织、版本化、复用提示词的桌面应用。">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23fdfdfc'/%3E%3Cpath d='M13.4 3 5.6 13.2h5L10.1 21l7.9-10.6h-5.2L13.4 3Z' fill='%23111'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<main class="shell">
+
+  <a class="back" href="/">&larr; Azazel</a>
+
+  <article class="prose">
+
+    <header>
+      <h1>PromptBox</h1>
+      <time datetime="2026-10-18">2026 年 10 月 18 日</time>
+    </header>
+
+    <p>PromptBox 是给提示词用的桌面应用。不是「一个文本框加一个复制按钮」的那种记事本，而是把提示词当成有结构、有变量、有历史的文档来编辑。</p>
+
+    <p>做它的理由很具体：我一直在手动做同一件事 —— 写一段长提示词，存一份副本，改三个词，再存一份副本，然后忘了到底是哪一份跑出了那个好结果。</p>
+
+    <h2 id="问题的形状">问题的形状</h2>
+
+    <p>一段提示词里有三种行为完全不同的东西，而文本编辑器把它们当成一回事：</p>
+
+    <ul>
+      <li><strong>固定文本</strong> —— 指令、语气、约束。写一次，之后很少动。</li>
+      <li><strong>变量</strong> —— 每次都要换的槽位：一个产品名、一段代码、一组选项。</li>
+      <li><strong>变体</strong> —— 分支。短的、长的、给那个希望语气更暖的客户的那一版。</li>
+    </ul>
+
+    <p>这三样一旦分开，后面很多事情就顺了：可以 diff 两个版本，看见变的只有某个变量；可以让一段积木在十个提示词里复用；可以拿一张表把同一个提示词渲染一百遍。<mark>分开之后，提示词才第一次成为一个可以被调用的东西，而不是一段被反复粘贴的文本。</mark></p>
+
+    <h2 id="变量的两种形态">变量的两种形态</h2>
+
+    <p>第一版只有一个扁平的变量列表：名字、类型、默认值。这覆盖了八九成的情况，剩下的那一两成把它撑破了。</p>
+
+    <p>撑破它的是商品描述。一件衣服有颜色、尺码、面料，而每一种组合都是一个你可能会想单独生成的对象。扁平列表表达不了「这些值是一起走的」。</p>
+
+    <p>于是现在有两种变量：</p>
+
+    <ol>
+      <li><strong>简单列表</strong> —— 彼此独立的值。选一个，得到一个。</li>
+      <li><strong>SKU 组合</strong> —— 会相乘的维度。颜色 × 尺码 × 面料 铺出整张网格，可以按行逐条渲染。</li>
+    </ol>
+
+    <p>下游的东西 —— 预览、导出、运行记录 —— 都从同一个解析后的结构里读，所以两种形态不需要两套代码。</p>
+
+    <blockquote>
+      <p>我反复回到的一条规则是：变量不是「挖了洞的文本」，而是一条声明出来的依赖。依赖就该有类型。</p>
+    </blockquote>
+
+    <h2 id="它是怎么搭的">它是怎么搭的</h2>
+
+    <p>Electron、Vite、Vue 3、Naive UI、IndexedDB。默认本地优先：提示词存在你机器上的数据库里，断网也能用。没有账号，没有同步服务器，你写的东西没有到期日。</p>
+
+    <p>花时间最长的偏偏是最看不见的部分 —— <span class="circled">一个不会丢任何一个按键的草稿自动保存</span>，一个能扛过重启的撤销栈，还有一个在两百条之后依然读得下去的版本列表。</p>
+
+    <div class="noted">
+      <p>图标是另一个小麻烦：提示词编辑器要用很多图标，而这套图标得像是同一只手画的。选择器直接搜 IconPark 全库，而不是<span class="note-anchor" data-note="icons" aria-describedby="note-icons">精挑二十个</span> —— 因为「客户投诉」对应的那个图标，从来不在精挑的二十个里面。</p>
+      <aside class="side-note" id="note-icons" data-note-for="icons" role="note" tabindex="0">
+        <span class="side-note__bracket" aria-hidden="true"></span>
+        <span class="side-note__text">精挑的那二十个，永远差一个</span>
+      </aside>
+    </div>
+
+    <h2 id="现在的位置">现在的位置</h2>
+
+    <p>它是我每天都在用的工具，这也是我唯一相信的评测标准。接下来想解决的是「写完」和「知道它好不好」之间那段空档 —— 现在这个判断完全长在我脑子里。</p>
+
+
+  </article>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__row">
+        <p><a href="/">&larr; 回到首页</a></p>
+        <a class="mark" href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.4 2 5.2 13.4h5.1L9.6 22 18.8 10.5h-5.3L13.4 2Z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  // 跳到 #某处 时闪一块黄，五秒内褪掉。
+  (function () {
+    function highlight() {
+      var id = decodeURIComponent(location.hash.slice(1));
+      Array.prototype.forEach.call(
+        document.querySelectorAll(".target"),
+        function (n) { n.classList.remove("target"); }
+      );
+      if (!id) return;
+      var target = document.getElementById(id);
+      if (!target) return;
+      void target.offsetWidth;
+      target.classList.add("target");
+      setTimeout(function () { target.classList.remove("target"); }, 5000);
+    }
+    highlight();
+    window.addEventListener("hashchange", highlight);
+  })();
+</script>
+
+<script src="/assets/vendor/rough-notation.js"></script>
+<script src="/assets/js/marginalia.js"></script>
+
+</body>
+</html>

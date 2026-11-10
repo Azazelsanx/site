@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video2Obsidian — Azazel</title>
+<meta name="description" content="把视频变成 Obsidian 里带时间戳的笔记，全程本地。">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23fdfdfc'/%3E%3Cpath d='M13.4 3 5.6 13.2h5L10.1 21l7.9-10.6h-5.2L13.4 3Z' fill='%23111'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<main class="shell">
+
+  <a class="back" href="/">&larr; Azazel</a>
+
+  <article class="prose">
+
+    <header>
+      <h1>Video2Obsidian</h1>
+      <time datetime="2026-04-21">2026 年 4 月 21 日</time>
+    </header>
+
+    <p>我看大量长视频 —— 讲座、访谈、会议录像 —— 但几乎不做笔记。原因很蠢：给视频做笔记，意味着在播放器和文本编辑器之间来回拖进度条。</p>
+
+    <p>Video2Obsidian 补的就是这道缝。给它一个文件，你在库里得到一篇笔记：转写稿按可读的段落切开，<span class="circled">每一段都能点回它被说出来的那一秒</span>。</p>
+
+    <h2 id="为什么非得本地">为什么非得本地</h2>
+
+    <p>每一家云端转写服务都把这件事做得很好，也每一家都想让音频上传到他们的服务器。可面对一段两小时的、不属于我的对话录音，讨论到此为止。</p>
+
+    <p>所以整条流水线都在机器上跑：<code>ffmpeg</code> 抽音轨并归一化，<strong>Qwen3-ASR-0.6B</strong> 用显卡转写，一个本地小服务把 markdown 写进库。<mark>没有一帧数据离开这台机器。</mark></p>
+
+    <h2 id="难受的几个地方">难受的几个地方</h2>
+
+    <p><strong>断句。</strong>原始转写稿是一堵墙。它需要在句子边界断段，时间戳要打在段落开头，而不是每一行开头。</p>
+
+    <p><strong>能真的跳过去的时间戳。</strong>Markdown 没有「跳到 00:14:32」这个概念。Media Extended 插件有，靠一种指向媒体文件加时间偏移的链接语法。所以每个段落都带一个插件认得的时间锚点，播放器嵌在笔记顶部。</p>
+
+    <p><strong>消费级显卡上的 GPU。</strong>用 CPU 转写大约是一倍速，也就是两小时的视频要两小时。丢给独立显卡只要零头，但需要装对运行时，还需要一条「驱动更新把它搞挂了」时的退路。</p>
+
+    <h2 id="产物长什么样">产物长什么样</h2>
+
+    <p>一篇笔记大致是这样：</p>
+
+    <pre><code>![[recording.mp4]]
+
+## 00:00:12
+开场那个问题，转写并按句断好。
+
+## 00:04:38
+……以此类推，一段一个时间戳。</code></pre>
+
+    <p>这个格式的意义在于：笔记在你读它之前就已经有用了 —— 可以搜它、可以从别的笔记链到某一段、或者点一个时间戳直接落在视频里的那个位置。</p>
+
+    <p>它跑在一个本地端口上，只干一件事。这个产品就这么大。</p>
+
+
+  </article>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__row">
+        <p><a href="/">&larr; 回到首页</a></p>
+        <a class="mark" href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.4 2 5.2 13.4h5.1L9.6 22 18.8 10.5h-5.3L13.4 2Z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  // 跳到 #某处 时闪一块黄，五秒内褪掉。
+  (function () {
+    function highlight() {
+      var id = decodeURIComponent(location.hash.slice(1));
+      Array.prototype.forEach.call(
+        document.querySelectorAll(".target"),
+        function (n) { n.classList.remove("target"); }
+      );
+      if (!id) return;
+      var target = document.getElementById(id);
+      if (!target) return;
+      void target.offsetWidth;
+      target.classList.add("target");
+      setTimeout(function () { target.classList.remove("target"); }, 5000);
+    }
+    highlight();
+    window.addEventListener("hashchange", highlight);
+  })();
+</script>
+
+<script src="/assets/vendor/rough-notation.js"></script>
+<script src="/assets/js/marginalia.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,976 @@
+/* ==========================================================================
+   Personal site — typography-first, single column
+   Reference feel: warm off-white paper, one narrow measure, no chrome.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/inter-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Newsreader";
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/assets/fonts/newsreader-italic-latin.woff2") format("woff2");
+}
+
+/* 页边批注用的手写体：拉丁部分用 Caveat，汉字回落到系统楷体 */
+@font-face {
+  font-family: "Caveat";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/assets/fonts/caveat-latin.woff2") format("woff2");
+}
+
+:root {
+  /* ---- ink & paper ---- */
+  --body-bg: #fdfdfc;
+  --body-color: #111;
+  --muted: rgba(0, 0, 0, 0.58);
+  --muted-strong: rgba(0, 0, 0, 0.4);
+  --muted-soft: rgba(0, 0, 0, 0.32);
+  --rule: #f2f2f2;
+  --rule-strong: #ededed;
+  --underline: #d9d9d9;
+  --underline-hover: #666;
+  --badge: #ff00aa;
+
+  /* ---- type ---- */
+  --font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
+    system-ui, sans-serif;
+  --font-secondary: "Newsreader", "Songti SC", Georgia, serif;
+  --font-hand: "Caveat", "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", cursive;
+  --font-code: "SF Mono", SFMono-Regular, Consolas, "Liberation Mono", Menlo,
+    monospace;
+
+  /* ---- layout ---- */
+  --measure: 36.375rem; /* 582px */
+  --gutter: 1rem;
+  --year-col: 6.75rem;
+  --year-col-sm: 3rem;
+
+  /* ---- motion ---- */
+  --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* ---------- reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--body-bg);
+  color: var(--body-color);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.58);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: #d8eaff;
+  color: #111;
+}
+
+/* ---------- shell ---------- */
+
+.shell {
+  padding: 5rem var(--gutter) 2.5rem;
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+
+/* the soft white veil that fades scrolling text out at the top */
+.shell::before {
+  content: "";
+  pointer-events: none;
+  z-index: 9;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8rem;
+  background: linear-gradient(
+    180deg,
+    var(--body-bg) 0,
+    rgba(253, 253, 252, 0.738) 19%,
+    rgba(253, 253, 252, 0.541) 34%,
+    rgba(253, 253, 252, 0.382) 47%,
+    rgba(253, 253, 252, 0.278) 56.5%,
+    rgba(253, 253, 252, 0.194) 65%,
+    rgba(253, 253, 252, 0.126) 73%,
+    rgba(253, 253, 252, 0.075) 80.2%,
+    rgba(253, 253, 252, 0.042) 86.1%,
+    rgba(253, 253, 252, 0.021) 91%,
+    rgba(253, 253, 252, 0.008) 95.2%,
+    rgba(253, 253, 252, 0.002) 98.2%,
+    rgba(253, 253, 252, 0) 100%
+  );
+}
+
+@media screen and (max-width: 768px) {
+  .shell {
+    padding: 2rem 1.5rem 2.5rem;
+  }
+  .shell::before {
+    height: 2.5rem;
+  }
+}
+
+/* ---------- prose ---------- */
+
+.prose > * {
+  animation: stagger-in 0.5s var(--ease-out) both;
+}
+.prose > :nth-child(1) { animation-delay: 0s; }
+.prose > :nth-child(2) { animation-delay: 0.05s; }
+.prose > :nth-child(3) { animation-delay: 0.1s; }
+.prose > :nth-child(4) { animation-delay: 0.15s; }
+.prose > :nth-child(5) { animation-delay: 0.2s; }
+.prose > :nth-child(6) { animation-delay: 0.25s; }
+.prose > :nth-child(7) { animation-delay: 0.3s; }
+.prose > :nth-child(8) { animation-delay: 0.35s; }
+.prose > :nth-child(n + 9) { animation-delay: 0.4s; }
+
+.prose > header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0 0 0.5rem;
+}
+
+.prose > header h1 {
+  font-size: 0.9375rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.00563rem;
+  color: var(--body-color);
+}
+
+.prose > header time {
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  font-weight: 460;
+  letter-spacing: -0.00563rem;
+  color: var(--muted-strong);
+}
+
+.prose > p,
+.noted > p,
+.prose > p + h1 {
+  padding-top: 0.75rem;
+}
+
+.prose > p,
+.noted > p {
+  font-size: 0.9375rem; /* 15px */
+  font-weight: 460;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  text-indent: 2em; /* 中文段首空两字 */
+}
+
+.prose > p strong,
+.noted > p strong {
+  font-weight: 600;
+  color: var(--body-color);
+}
+
+/* 中文没有真斜体，强调改为加粗压深 */
+.prose > p em,
+.noted > p em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--body-color);
+  line-height: inherit;
+}
+
+.prose > p.soft {
+  color: var(--muted);
+}
+
+/* ---------- 荧光笔划线 ---------- */
+/* 没装 JS 时用渐变兜底；JS 一接手就把底色撤掉，让手绘引擎重新涂一遍 */
+.prose mark {
+  color: inherit;
+  background: linear-gradient(transparent 52%, #fdf3a8 52%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 0.05em;
+}
+
+.prose mark.mark-live {
+  background: none;
+}
+
+/* ---------- 手绘标记 ---------- */
+/* 圈、方框、荧光笔、方括号的 SVG 都由 rough-notation 现场插入，
+   这里只保证它不吃鼠标事件、不被裁切 */
+
+.rough-annotation {
+  pointer-events: none;
+  overflow: visible;
+}
+
+.circled,
+.boxed {
+  position: relative;
+}
+
+/* ---------- 页边手写批注 ---------- */
+
+.noted {
+  position: relative;
+  padding-top: 0.75rem;
+}
+
+.side-note {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-left: 3.25rem;
+  width: 12.5rem;
+  padding-left: 0.35rem; /* 给方括号让位 */
+  transform: translateY(-50%) rotate(0deg);
+  opacity: 1;
+  font-family: var(--font-hand);
+  font-size: 1.3125rem;
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: 0.01em;
+  color: #4a4a4a;
+  cursor: default;
+  transition: opacity 0.45s ease, transform 0.75s var(--ease-out),
+    color 0.2s ease;
+}
+
+/* 没装 JS 时批注就是普通可见文字；JS 会先上膛（藏起来），再放出来 */
+.side-note.is-armed {
+  opacity: 0;
+  transform: translateY(-50%) rotate(-1.2deg);
+}
+
+.side-note.is-shown {
+  opacity: 1;
+  transform: translateY(-50%) rotate(0deg);
+}
+
+.side-note:focus-visible {
+  outline: 2px solid #3e9fff;
+  outline-offset: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* 方括号由 rough-notation 画在这个细条上，颜色跟着批注文字走 */
+.side-note__bracket {
+  position: absolute;
+  left: 0;
+  top: 3px;
+  bottom: 3px;
+  width: 1px;
+  pointer-events: none;
+}
+
+/* 写字式揭示：斜向擦除，从左上写到右下 */
+.side-note__text {
+  display: block;
+  -webkit-mask-image: linear-gradient(114deg, #000 36%, transparent 45%);
+  mask-image: linear-gradient(114deg, #000 36%, transparent 45%);
+  -webkit-mask-size: 320% 100%;
+  mask-size: 320% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+  transition: -webkit-mask-position 1.05s cubic-bezier(0.3, 0.05, 0.2, 1),
+    mask-position 1.05s cubic-bezier(0.3, 0.05, 0.2, 1), color 0.2s ease;
+}
+
+.side-note.is-armed .side-note__text {
+  -webkit-mask-position: 100% 0;
+  mask-position: 100% 0;
+}
+
+.side-note.is-written .side-note__text {
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+}
+
+/* 批注与正文互相点亮：正文那句用同一套手绘荧光笔现涂一遍 */
+.side-note.is-lit {
+  color: #111;
+}
+
+@media screen and (max-width: 1120px) {
+  .side-note,
+  .side-note.is-shown,
+  .side-note.is-lit {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin: 1.25rem auto 0.25rem;
+    width: min(100%, 16rem);
+    transform: none;
+  }
+}
+
+/* ---------- 批注：上标 + 页脚注 ---------- */
+
+.prose sup {
+  display: inline-block;
+  padding: 0 0 0 0.2em;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 0.62em;
+  font-weight: 500;
+  line-height: 1;
+  vertical-align: super;
+  text-indent: 0;
+}
+
+.prose sup a:hover {
+  color: #111;
+}
+
+.footnotes {
+  padding: 2.5rem 0 0;
+  animation: stagger-in 0.5s var(--ease-out) both;
+  animation-delay: 0.6s;
+}
+
+.footnotes::before {
+  content: "";
+  display: block;
+  width: 3.125rem;
+  height: 1px;
+  background: var(--rule-strong);
+  margin-bottom: 1.25rem;
+}
+
+.footnotes h2 {
+  color: var(--muted-strong);
+  font-size: 0.75rem;
+  font-weight: 460;
+  letter-spacing: 0.08em;
+  padding-bottom: 0.75rem;
+}
+
+.footnotes ol {
+  padding: 0 0 0 1rem;
+  counter-reset: fn;
+}
+
+.footnotes li {
+  position: relative;
+  counter-increment: fn;
+  padding: 0 0 0.5rem 0;
+  color: var(--muted-strong);
+  font-size: 0.8125rem;
+  font-weight: 460;
+  line-height: 1.5;
+  letter-spacing: 0.005em;
+  text-indent: 0;
+}
+
+.footnotes li::before {
+  content: counter(fn) ".";
+  position: absolute;
+  right: 100%;
+  margin-right: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--muted-soft);
+}
+
+.footnotes li:target {
+  color: var(--body-color);
+}
+
+/* ---------- inline links: hairline underline ---------- */
+
+.link {
+  position: relative;
+  display: inline;
+  color: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  transition: all 0.2s ease;
+}
+
+.link::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  border-radius: 2px;
+  background: var(--underline);
+  opacity: 1;
+  transition: inherit;
+}
+
+.link:hover::before {
+  background: var(--underline-hover);
+}
+
+.link:focus-visible {
+  outline: 2px solid #3e9fff;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- writing list ---------- */
+
+.posts {
+  padding: 3rem 0 0;
+  animation: stagger-in 0.5s var(--ease-out) both;
+  animation-delay: 0.45s;
+}
+
+.posts__title {
+  display: block;
+  color: var(--muted-strong);
+  font-size: 0.875rem;
+  font-weight: 460;
+  letter-spacing: 0.06em;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.posts > ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.posts > ul > li {
+  border-bottom: 1px solid var(--rule);
+}
+
+.posts > ul > li:last-child {
+  border-bottom: none;
+}
+
+.posts > ul > li > ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.post {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.735rem 0 0.735rem var(--year-col);
+  transition: color 0.14s ease;
+}
+
+.post::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: var(--year-col);
+  right: 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.posts > ul > li > ul > li:last-child .post::after {
+  display: none;
+}
+
+.post h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--body-color);
+  font-size: 0.9375rem;
+  font-weight: 460;
+  line-height: 1.5rem;
+  letter-spacing: 0.01em;
+  transition: opacity 0.14s ease;
+}
+
+/* the little arrow that slides out on hover */
+.post h2::after {
+  content: "↗";
+  font-size: 0.6875rem;
+  line-height: 1;
+  color: var(--muted-strong);
+  opacity: 0;
+  transform: translateX(-0.15rem);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+.post time {
+  color: var(--muted-strong);
+  font-size: 0.875rem;
+  font-weight: 460;
+  line-height: normal;
+  letter-spacing: -0.00563rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.post time span {
+  display: inline-block;
+  transition: opacity 0.14s ease;
+}
+
+/* "/" is hidden; the year is parked in the left gutter */
+.post time span:nth-child(2) {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.post time span:last-child {
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+}
+
+.posts > ul > li > ul > li:first-child .post time span:last-child {
+  visibility: visible;
+}
+
+/* hover: dim the whole list, then bring the pointed-at row back */
+@media screen and (min-width: 520px) {
+  .posts > ul:hover > li > ul > li .post h2,
+  .posts > ul:hover > li > ul > li .post time span {
+    opacity: 0.3;
+  }
+  /* the year is already the quietest thing on the row — keep it steady */
+  .posts > ul:hover > li > ul > li .post time span:last-child {
+    opacity: 1;
+  }
+}
+
+.post:hover h2,
+.post:hover time span {
+  opacity: 1 !important;
+}
+
+.post:hover h2::after {
+  opacity: 1;
+  transform: translateX(0.25rem);
+}
+
+@media screen and (max-width: 520px) {
+  .post {
+    padding-left: var(--year-col-sm);
+  }
+  .post::after {
+    left: var(--year-col-sm);
+  }
+}
+
+/* "New" flag next to a title */
+.flag {
+  margin-left: 0.5rem;
+  color: var(--badge);
+  font-size: 0.8125rem;
+  font-weight: 460;
+  letter-spacing: 0;
+}
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  padding: 2.5rem 0 5rem;
+  animation: stagger-in 0.5s var(--ease-out) both;
+  animation-delay: 0.55s;
+}
+
+.site-footer__inner::before {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 3.125rem;
+  background: var(--rule-strong);
+  margin: 0 0 2.375rem;
+}
+
+.site-footer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-footer p {
+  color: var(--muted-strong);
+  font-size: 0.8125rem;
+  font-weight: 460;
+  letter-spacing: -0.0025rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.site-footer a {
+  color: var(--muted-strong);
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.site-footer a:hover {
+  color: var(--body-color);
+}
+
+/* ---- rolling clock: each digit is a one-character window ---- */
+
+.clock {
+  display: inline-flex;
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
+}
+
+.clock > .digit {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  width: 1ch;
+  height: 1.34em;
+  vertical-align: -0.26em;
+  text-align: center;
+}
+
+.clock > .digit > span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1.34em;
+  line-height: 1.34em;
+  text-align: center;
+  will-change: transform;
+}
+
+.clock > .static {
+  display: inline-block;
+}
+
+
+.mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: rgba(0, 0, 0, 0.28);
+  transition: color 0.2s ease;
+}
+
+.mark:hover {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.mark svg {
+  display: block;
+  overflow: visible;
+  transform-origin: 50% 75%;
+  animation: mark-tick 12s ease-in-out infinite;
+}
+
+.mark:hover svg {
+  animation: none;
+  transform: rotate(-10deg) scale(1.08);
+  transition: transform 0.4s var(--ease-out);
+}
+
+/* ---------- article page ---------- */
+
+.back {
+  display: inline-block;
+  padding-bottom: 1.5rem;
+  color: var(--muted-strong);
+  font-size: 0.8125rem;
+  font-weight: 460;
+  letter-spacing: -0.0025rem;
+  transition: color 0.15s ease;
+}
+
+.back:hover {
+  color: var(--body-color);
+}
+
+.prose h2 {
+  padding-top: 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  letter-spacing: 0.01em;
+  color: var(--body-color);
+  text-wrap: balance;
+}
+
+.prose ul + h2,
+.prose ol + h2,
+.prose pre + h2,
+.prose blockquote + h2 {
+  padding-top: 1.5rem;
+}
+
+.prose h2 + p {
+  padding-top: 0.75rem;
+}
+
+.prose h3 {
+  padding-top: 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 560;
+  line-height: 1.5rem;
+  letter-spacing: 0.01em;
+  color: var(--body-color);
+}
+
+.prose > ul,
+.prose > ol {
+  padding: 0.5rem 0 1rem 1.5rem;
+}
+
+.prose > ul li,
+.prose > ol li {
+  position: relative;
+  padding: 0 0 0.5rem 0;
+  font-size: 0.9375rem;
+  font-weight: 460;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  text-indent: 0;
+}
+
+.prose > ul li:last-child,
+.prose > ol li:last-child {
+  padding-bottom: 0;
+}
+
+.prose > ul li::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  margin-right: 0.5rem;
+  top: 0.675em;
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 50%;
+  background: #b3b3b3;
+}
+
+.prose > ol {
+  counter-reset: list;
+}
+
+.prose > ol li {
+  counter-increment: list;
+  padding-left: 1rem;
+}
+
+.prose > ol li::before {
+  content: counter(list) ".";
+  position: absolute;
+  right: 100%;
+  top: 0;
+  color: var(--muted-strong);
+}
+
+.prose blockquote {
+  padding: 1.75rem 0;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 460;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.prose blockquote p {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.prose blockquote p::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0.125rem;
+  border-radius: 0.3125rem;
+  background: #e6e6e6;
+}
+
+.prose pre {
+  margin: 1rem 0;
+  padding: 0.875rem 1rem;
+  background: #f7f7f6;
+  border-radius: 0.375rem;
+  overflow-x: auto;
+  font-family: var(--font-code);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: #333;
+  text-indent: 0;
+}
+
+.prose code {
+  font-family: var(--font-code);
+  font-size: 0.8125rem;
+  color: #222;
+}
+
+.prose p code {
+  padding: 0.0625rem 0.25rem;
+  background: #f7f7f6;
+  border-radius: 3px;
+  font-size: 0.78125rem;
+}
+
+.prose hr {
+  height: 1px;
+  border: none;
+  background: var(--rule);
+  margin: 2rem 0;
+}
+
+.prose figure {
+  margin: 1.25rem 0;
+}
+
+.prose figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+}
+
+.prose figcaption {
+  padding-top: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 460;
+  color: var(--muted-soft);
+}
+
+/* ---------- motion ---------- */
+
+@keyframes stagger-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* the mark mostly sits still, then twitches twice — same rhythm as a
+   sleeping animal's ear */
+@keyframes mark-tick {
+  0%,
+  9% {
+    transform: rotate(0deg);
+  }
+  12% {
+    transform: rotate(-9deg);
+  }
+  16%,
+  34% {
+    transform: rotate(0deg);
+  }
+  38% {
+    transform: rotate(-13deg);
+  }
+  42% {
+    transform: rotate(-5deg);
+  }
+  48%,
+  58% {
+    transform: rotate(0deg);
+  }
+  62% {
+    transform: rotate(-20deg) scale(1.08);
+  }
+  70% {
+    transform: rotate(-17deg) scale(1.05);
+  }
+  78%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+/* anchor highlight: snaps on, then dissolves over five seconds */
+@keyframes fade-in-out {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+}
+
+.target {
+  position: relative;
+}
+
+.target::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0.5rem -1rem -0.5rem;
+  border-radius: 0.5rem;
+  background: #ffa;
+  mix-blend-mode: multiply;
+  animation: fade-in-out 5s ease both;
+}
+
+.prose h2.target::after,
+.prose h3.target::after {
+  inset: -0.5rem -1rem -0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .mark svg {
+    animation: none;
+  }
+}
