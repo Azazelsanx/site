@@ -1053,8 +1053,8 @@ p.body + '\n' +
     el.gateBtn.textContent = "验证…";
 
     gh("/repos/" + OWNER + "/" + REPO).then(function (repo) {
-      if (!repo.permissions || !repo.permissions.push) {
-        throw new Error("这枚 token 对这个仓库没有写权限（Contents: Read and write）");
+      if (repo.permissions && repo.permissions.push === false) {
+        throw new Error("这枚 token 对这个仓库只有读权限，需要 Contents: Read and write");
       }
       localStorage.setItem(LS_TOKEN, token);
       el.gate.hidden = true;
