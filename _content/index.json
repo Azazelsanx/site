@@ -1,0 +1,39 @@
+{
+  "posts": [
+    {
+      "slug": "promptbox",
+      "title": "PromptBox",
+      "iso": "2026-10-18",
+      "desc": "一个用来组织、版本化、复用提示词的桌面应用。",
+      "flag": "新"
+    },
+    {
+      "slug": "variable-systems",
+      "title": "不是模板，是变量系统",
+      "iso": "2026-09-02",
+      "desc": "关于「填空」和「声明依赖」之间的区别。",
+      "flag": ""
+    },
+    {
+      "slug": "video2obsidian",
+      "title": "Video2Obsidian",
+      "iso": "2026-04-21",
+      "desc": "把视频变成 Obsidian 里带时间戳的笔记，全程本地。",
+      "flag": ""
+    },
+    {
+      "slug": "local-first",
+      "title": "本地优先这几件事",
+      "iso": "2025-11-20",
+      "desc": "为什么我做的工具总是把数据留在你机器上。",
+      "flag": ""
+    },
+    {
+      "slug": "pos",
+      "title": "给店主做的收银机",
+      "iso": "2024-07-08",
+      "desc": "给小店做收银软件，教会了我什么。",
+      "flag": ""
+    }
+  ]
+}

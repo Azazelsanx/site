@@ -1,26 +1,21 @@
 #!/usr/bin/env bash
-# 手动部署到 Cloudflare Pages（兜底方案；主路径是 Git 集成自动部署）
+# 手动部署兜底（主路径：push 到 GitHub → Cloudflare Workers Builds 自动构建）
 #
 # 用法：
-#   CLOUDFLARE_API_TOKEN=xxxx CF_PAGES_PROJECT=site ./deploy.sh
+#   CLOUDFLARE_API_TOKEN=xxxx ./deploy.sh
 #
-# Token 权限：Account → Cloudflare Pages → Edit
+# Token 权限：Account → Workers Scripts → Edit
 set -euo pipefail
 cd "$(dirname "$0")"
-
-PROJECT="${CF_PAGES_PROJECT:-site}"
 
 if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
   echo "缺少 CLOUDFLARE_API_TOKEN"
   echo "Cloudflare Dashboard → My Profile → API Tokens → Create Token"
-  echo "模板选「Edit Cloudflare Workers」，或自定义 Account / Cloudflare Pages / Edit"
+  echo "模板选「Edit Cloudflare Workers」"
   exit 1
 fi
 
 export NODE_OPTIONS=
 
-echo "→ 部署到 https://$PROJECT.pages.dev"
-npx --yes wrangler@latest pages deploy . \
-  --project-name="$PROJECT" \
-  --branch=main \
-  --commit-dirty=true
+bash build.sh
+npx --yes wrangler@latest deploy

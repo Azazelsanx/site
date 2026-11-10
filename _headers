@@ -1,11 +1,12 @@
+# Cloudflare Workers 静态资产响应头
+# 注意：文章页是以无扩展名路径提供的（/articles/promptbox），
+# 所以 HTML 不吃通配规则，走平台默认的 max-age=0 + must-revalidate —— 改完即刻生效。
+
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=()
-
-/*.html
-  Cache-Control: public, max-age=300, must-revalidate
 
 /styles.css
   Cache-Control: public, max-age=300, must-revalidate

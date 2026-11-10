@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>编辑台 — Azazel</title>
+<link rel="stylesheet" href="/admin/admin.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23fdfdfc'/%3E%3Cpath d='M13.4 3 5.6 13.2h5L10.1 21l7.9-10.6h-5.2L13.4 3Z' fill='%23111'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- ---------- 登录门 ---------- -->
+<div class="gate" id="gate">
+  <div class="gate__card">
+    <h1>编辑台</h1>
+    <p class="gate__hint">
+      这个页面直接写 GitHub 仓库，没有服务器。<br>
+      需要一枚 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">fine-grained token</a>：
+      Repository access 只选 <code>Azazelsanx/site</code>，Permissions 里
+      <b>Contents: Read and write</b>，其余留空。
+    </p>
+    <form id="gate-form">
+      <label class="field">
+        <span>GitHub token</span>
+        <input class="input input--mono" id="token" type="password"
+               placeholder="github_pat_..." autocomplete="off" spellcheck="false">
+      </label>
+      <button class="btn btn--solid btn--block" id="gate-submit" type="submit">进入</button>
+      <p class="gate__error" id="gate-error" hidden></p>
+    </form>
+    <p class="gate__foot">
+      token 只存在这台浏览器的 localStorage，不上传、不进仓库。<br>
+      换电脑或清缓存后需要重新粘贴一次。
+    </p>
+  </div>
+</div>
+
+<!-- ---------- 编辑台 ---------- -->
+<div class="app" id="app" hidden>
+
+  <aside class="rail">
+    <div class="rail__head">
+      <div class="rail__title">
+        <b>写作</b><span id="rail-count"></span>
+      </div>
+      <button class="btn btn--block" id="new-post">＋ 新文章</button>
+    </div>
+    <ul class="rail__list" id="rail-list"></ul>
+    <details class="cheat">
+      <summary>标记速查</summary>
+      <div class="cheat__body">
+        <b>==高亮==</b> 荧光笔<br>
+        <b>((圈))</b> 手绘圈<br>
+        <b>[[方]]</b> 红笔方框<br>
+        <b>{{句子|旁批}}</b> 页边手写批注<br>
+        <b># 小标题</b> / <b>## 更小</b><br>
+        <b>- 列表</b> / <b>1. 列表</b> / <b>&gt; 引用</b><br>
+        <b>**加粗**</b> / <b>*斜体*</b> / <b>`代码`</b><br>
+        <b>[文字](链接)</b> / <b>```整段代码```</b><br>
+        空行分段，段首不用打空格。
+      </div>
+    </details>
+    <div class="rail__foot">
+      <span id="who">Azazelsanx/site</span>
+      <button class="btn" id="logout" style="padding:.2rem .45rem;font-size:.6875rem">换 token</button>
+    </div>
+  </aside>
+
+  <main class="pane">
+    <div class="pane__head">
+      <h2 id="pane-title">未选择</h2>
+      <div class="switches">
+        <a class="btn" id="open-live" href="#" target="_blank" rel="noopener" hidden>看线上 ↗</a>
+      </div>
+    </div>
+
+    <div class="meta">
+      <label class="field meta__wide">
+        <span>标题</span>
+        <input class="input" id="f-title" placeholder="文章标题">
+      </label>
+      <label class="field">
+        <span>日期</span>
+        <input class="input" id="f-date" type="date">
+      </label>
+      <label class="field">
+        <span>链接名（slug）</span>
+        <input class="input input--mono" id="f-slug" placeholder="promptbox">
+      </label>
+      <label class="field meta__wide">
+        <span>摘要（搜索与社交卡片用）</span>
+        <input class="input" id="f-desc" placeholder="一句话说清这篇写什么">
+      </label>
+      <label class="field">
+        <span>首页角标</span>
+        <input class="input" id="f-flag" placeholder="新（可空）" maxlength="2">
+      </label>
+    </div>
+
+    <div class="toolbar" id="toolbar">
+      <button class="toolbar__btn" data-wrap="**|**" title="加粗 Ctrl+B">粗</button>
+      <button class="toolbar__btn" data-wrap="*|*" title="斜体 Ctrl+I">斜</button>
+      <button class="toolbar__btn" data-wrap="`|`" title="行内代码">码</button>
+      <span class="toolbar__sep"></span>
+      <button class="toolbar__btn" data-wrap="==|==" title="荧光笔">高亮</button>
+      <button class="toolbar__btn" data-wrap="((|))" title="手绘圈">圈</button>
+      <button class="toolbar__btn" data-wrap="[[|]]" title="红笔方框">框</button>
+      <button class="toolbar__btn" data-note="1" title="页边批注">批注</button>
+      <span class="toolbar__sep"></span>
+      <button class="toolbar__btn" data-block="h2">小标题</button>
+      <button class="toolbar__btn" data-block="ul">列表</button>
+      <button class="toolbar__btn" data-block="ol">编号</button>
+      <button class="toolbar__btn" data-block="quote">引用</button>
+      <button class="toolbar__btn" data-block="code">代码块</button>
+      <button class="toolbar__btn" data-block="link">链接</button>
+    </div>
+
+    <textarea class="editor" id="f-md" spellcheck="false"
+      placeholder="在这里写。空行分段，右上角「标记速查」有全部语法。"></textarea>
+
+    <div class="statusbar">
+      <span id="status">就绪</span>
+      <div class="statusbar__actions">
+        <span id="count" style="margin-right:.5rem"></span>
+        <button class="btn btn--danger" id="delete">删除</button>
+        <button class="btn" id="save-draft">存草稿</button>
+        <button class="btn btn--solid" id="publish">发布</button>
+      </div>
+    </div>
+  </main>
+
+  <aside class="pane pane--preview">
+    <div class="pane__head">
+      <h2>预览</h2>
+      <div class="switches">
+        <label class="check"><input type="checkbox" id="live" checked> 跟随输入</label>
+        <button class="btn" id="refresh" style="padding:.25rem .5rem">重画</button>
+      </div>
+    </div>
+    <iframe class="preview-frame" id="pv" title="预览"></iframe>
+    <p class="preview__hint">预览加载的是线上同一份 CSS 与手绘库，圈画、批注、滚动时钟都是真的。</p>
+  </aside>
+
+</div>
+
+<script src="/admin/admin.js"></script>
+</body>
+</html>
