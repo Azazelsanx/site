@@ -59,13 +59,14 @@
   function doc(cfg) {
     var body = cfg.body && cfg.body.trim()
       ? cfg.body
-      : "<p>从这段开始写。双击就能改字。</p>";
+      : '<p data-xb-placeholder="1">从这段开始写。双击就能改字。</p>';
     return '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">' +
       '<meta name="viewport" content="width=device-width, initial-scale=1">' +
       '<base href="/">' +
       '<link rel="stylesheet" href="/styles.css">' +
       '<style>html{scroll-padding-top:60px}' +
       '.prose *[contenteditable="true"]{outline:none;box-shadow:0 0 0 3px rgba(47,111,237,.12)}' +
+      '.prose [data-xb-placeholder]{color:#c9c9c9}' +
       '::selection{background:rgba(47,111,237,.22)}</style>' +
       '</head><body><main class="shell"><article class="prose">' +
       '<header><h1>' + esc(cfg.title || "无标题") + "</h1>" +

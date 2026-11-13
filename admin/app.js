@@ -400,6 +400,7 @@
       b.addEventListener("click", function () {
         if (state.mode === b.dataset.mode) return;
         if (b.dataset.mode === "design" && state.mdDirty) {
+          if (!confirm("源码里改过了：切回装修会按源码重排正文，逐段装修的样式会丢。继续？")) return;
           state.body = Core.mdToHtml(el.code.value);
           state.mdDirty = false;
           mountCanvas();

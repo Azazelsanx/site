@@ -642,6 +642,7 @@
     var node = sel;
     node.removeAttribute("contenteditable");
     node.removeAttribute("data-xb-editing");
+    node.removeAttribute("data-xb-placeholder");
     normalize(node);
     paintChrome();
     report();
@@ -1009,6 +1010,7 @@
     var out = [];
     Array.prototype.forEach.call(clone.children, function (n) {
       if (n.tagName === "HEADER") return;
+      if (n.hasAttribute && n.hasAttribute("data-xb-placeholder")) return;
       if (n.tagName === "STYLE" && n.id === THEME_ID) { if (n.textContent.trim()) out.push(n.outerHTML); return; }
       out.push(n.outerHTML);
     });
@@ -1035,6 +1037,10 @@
 
   function commit(reason) {
     if (!host || !host.onCommit) return;
+    /* 一旦动过，占位段落就变成真正的正文 */
+    Array.prototype.forEach.call(prose.querySelectorAll("[data-xb-placeholder]"), function (n) {
+      n.removeAttribute("data-xb-placeholder");
+    });
     clearTimeout(commitTimer);
     commitTimer = setTimeout(function () {
       host.onCommit(getBody(), reason || "");
