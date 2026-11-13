@@ -10,15 +10,15 @@
 </head>
 <body>
 
-<!-- ---------- 登录门 ---------- -->
-<div class="gate" id="gate">
+<!-- ---------------- 登录门 ---------------- -->
+<div class="gate" id="gate" hidden>
   <div class="gate__card">
     <h1>编辑台</h1>
     <p class="gate__hint">
       这个页面直接写 GitHub 仓库，没有服务器。<br>
       需要一枚 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">fine-grained token</a>：
-      Repository access 只选 <code>Azazelsanx/site</code>，Permissions 里
-      <b>Contents: Read and write</b>，其余留空。
+      Repository access 只选 <code>Azazelsanx/site</code>，
+      Permissions 里 <b>Contents: Read and write</b>，其余留空。
     </p>
     <form id="gate-form">
       <label class="field">
@@ -36,114 +36,134 @@
   </div>
 </div>
 
-<!-- ---------- 编辑台 ---------- -->
+<!-- ---------------- 编辑台 ---------------- -->
 <div class="app" id="app" hidden>
 
-  <aside class="rail">
-    <div class="rail__head">
-      <div class="rail__title">
-        <b>写作</b><span id="rail-count"></span>
-      </div>
-      <button class="btn btn--block" id="new-post">＋ 新文章</button>
+  <header class="top">
+    <div class="top__l">
+      <span class="brand">Azazel</span>
+      <span class="brand__sub">编辑台</span>
     </div>
-    <ul class="rail__list" id="rail-list"></ul>
-    <details class="cheat">
-      <summary>标记速查</summary>
-      <div class="cheat__body">
-        <b>==高亮==</b> 荧光笔<br>
-        <b>((圈))</b> 手绘圈<br>
-        <b>[[方]]</b> 红笔方框<br>
-        <b>{{句子|旁批}}</b> 页边手写批注<br>
-        <b># 小标题</b> / <b>## 更小</b><br>
-        <b>- 列表</b> / <b>1. 列表</b> / <b>&gt; 引用</b><br>
-        <b>**加粗**</b> / <b>*斜体*</b> / <b>`代码`</b><br>
-        <b>[文字](链接)</b> / <b>```整段代码```</b><br>
-        空行分段，段首不用打空格。
-      </div>
-    </details>
-    <div class="rail__foot">
-      <span id="who">Azazelsanx/site</span>
-      <button class="btn" id="logout" style="padding:.2rem .45rem;font-size:.6875rem">换 token</button>
-    </div>
-  </aside>
 
-  <main class="pane">
-    <div class="pane__head">
-      <h2 id="pane-title">未选择</h2>
-      <div class="switches">
-        <a class="btn" id="open-live" href="#" target="_blank" rel="noopener" hidden>看线上 ↗</a>
+    <div class="top__c">
+      <div class="switch">
+        <button class="mode-btn on" data-mode="design">装修</button>
+        <button class="mode-btn" data-mode="code">源码</button>
+      </div>
+      <div class="devices">
+        <button data-dev="100" class="on" title="桌面">▭</button>
+        <button data-dev="768" title="平板">▯</button>
+        <button data-dev="390" title="手机">▮</button>
       </div>
     </div>
 
-    <div class="meta">
-      <label class="field meta__wide">
-        <span>标题</span>
-        <input class="input" id="f-title" placeholder="文章标题">
-      </label>
-      <label class="field">
-        <span>日期</span>
-        <input class="input" id="f-date" type="date">
-      </label>
-      <label class="field">
-        <span>链接名（slug）</span>
-        <input class="input input--mono" id="f-slug" placeholder="promptbox">
-      </label>
-      <label class="field meta__wide">
-        <span>摘要（搜索与社交卡片用）</span>
-        <input class="input" id="f-desc" placeholder="一句话说清这篇写什么">
-      </label>
-      <label class="field">
-        <span>首页角标</span>
-        <input class="input" id="f-flag" placeholder="新（可空）" maxlength="2">
-      </label>
+    <div class="top__r">
+      <button class="ico" id="undo" title="撤销 Ctrl+Z" disabled>↶</button>
+      <button class="ico" id="redo" title="重做 Ctrl+Shift+Z" disabled>↷</button>
+      <span class="saved" id="saved">—</span>
+      <a class="btn btn--ghost" id="open-live" href="#" target="_blank" rel="noopener" hidden>看线上 ↗</a>
+      <button class="btn btn--solid" id="publish">发布 <kbd>⌥↵</kbd></button>
     </div>
+  </header>
 
-    <div class="toolbar" id="toolbar">
-      <button class="toolbar__btn" data-wrap="**|**" title="加粗 Ctrl+B">粗</button>
-      <button class="toolbar__btn" data-wrap="*|*" title="斜体 Ctrl+I">斜</button>
-      <button class="toolbar__btn" data-wrap="`|`" title="行内代码">码</button>
-      <span class="toolbar__sep"></span>
-      <button class="toolbar__btn" data-wrap="==|==" title="荧光笔">高亮</button>
-      <button class="toolbar__btn" data-wrap="((|))" title="手绘圈">圈</button>
-      <button class="toolbar__btn" data-wrap="[[|]]" title="红笔方框">框</button>
-      <button class="toolbar__btn" data-note="1" title="页边批注">批注</button>
-      <span class="toolbar__sep"></span>
-      <button class="toolbar__btn" data-block="h2">小标题</button>
-      <button class="toolbar__btn" data-block="ul">列表</button>
-      <button class="toolbar__btn" data-block="ol">编号</button>
-      <button class="toolbar__btn" data-block="quote">引用</button>
-      <button class="toolbar__btn" data-block="code">代码块</button>
-      <button class="toolbar__btn" data-block="link">链接</button>
-    </div>
+  <div class="work">
 
-    <textarea class="editor" id="f-md" spellcheck="false"
-      placeholder="在这里写。空行分段，右上角「标记速查」有全部语法。"></textarea>
-
-    <div class="statusbar">
-      <span id="status">就绪</span>
-      <div class="statusbar__actions">
-        <span id="count" style="margin-right:.5rem"></span>
-        <button class="btn btn--danger" id="delete">删除</button>
-        <button class="btn" id="save-draft">存草稿</button>
-        <button class="btn btn--solid" id="publish">发布</button>
+    <!-- 左：文章 -->
+    <aside class="rail">
+      <div class="rail__head">
+        <span class="rail__label">文章</span>
+        <span class="rail__count" id="rail-count"></span>
       </div>
-    </div>
-  </main>
-
-  <aside class="pane pane--preview">
-    <div class="pane__head">
-      <h2>预览</h2>
-      <div class="switches">
-        <label class="check"><input type="checkbox" id="live" checked> 跟随输入</label>
-        <button class="btn" id="refresh" style="padding:.25rem .5rem">重画</button>
+      <ul class="rail__list" id="rail-list"></ul>
+      <div class="rail__foot">
+        <button class="btn btn--block btn--sm" id="new-post">＋ 新文章</button>
+        <button class="linkish" id="logout">换 token</button>
       </div>
-    </div>
-    <iframe class="preview-frame" id="pv" title="预览"></iframe>
-    <p class="preview__hint">预览加载的是线上同一份 CSS 与手绘库，圈画、批注、滚动时钟都是真的。</p>
-  </aside>
+    </aside>
 
+    <!-- 中：画布 -->
+    <section class="stage">
+      <div class="stage__bar">
+        <b id="doc-title">未选择</b>
+        <span class="stage__hint" id="status">就绪</span>
+      </div>
+
+      <div class="canvas-wrap" id="canvas-wrap" data-device="100">
+        <iframe id="cv" title="画布"></iframe>
+      </div>
+
+      <div class="code-wrap">
+        <textarea id="f-md" spellcheck="false" placeholder="轻标记源码。空行分段，切回装修会按源码重排正文。"></textarea>
+      </div>
+
+      <div class="stage__foot">
+        <span id="status-line">双击改字 · 拖左侧 ⠿ 排序 · Esc 取消选中</span>
+      </div>
+    </section>
+
+    <!-- 右：属性 -->
+    <aside class="insp">
+      <div class="insp__scroll">
+
+        <section class="insp-sec insp-sec--meta">
+          <h4>文章</h4>
+          <label class="field"><span>标题</span><input class="input" id="f-title" placeholder="文章标题"></label>
+          <div class="field-row">
+            <label class="field"><span>日期</span><input class="input" id="f-date" type="date"></label>
+            <label class="field"><span>角标</span><input class="input" id="f-flag" maxlength="2" placeholder="新"></label>
+          </div>
+          <label class="field"><span>网址名</span><input class="input input--mono" id="f-slug" placeholder="promptbox"></label>
+          <label class="field"><span>摘要</span><input class="input" id="f-desc" placeholder="一句话说清写什么"></label>
+        </section>
+
+        <div class="insp-empty" id="insp-empty">
+          <b>点画布里的任意一块</b>
+          <span>段落、标题、列表、图片都能选中；双击直接改字。</span>
+        </div>
+
+        <div id="insp-elem" hidden></div>
+
+        <section class="insp-sec insp-sec--theme" id="insp-theme">
+          <h4>页面主题 <button class="mini" data-reset="1">还原</button></h4>
+          <div class="ctl"><span class="ctl__k">纸色</span>
+            <input class="ctl__color" type="color" value="#fdfdfc" data-theme="bg">
+            <span class="ctl__v" data-theme-out="bg" data-def="#fdfdfc">默认</span></div>
+          <div class="ctl"><span class="ctl__k">墨色</span>
+            <input class="ctl__color" type="color" value="#111111" data-theme="ink">
+            <span class="ctl__v" data-theme-out="ink" data-def="#111">默认</span></div>
+          <div class="ctl"><span class="ctl__k">强调</span>
+            <input class="ctl__color" type="color" value="#ff00aa" data-theme="accent">
+            <span class="ctl__v" data-theme-out="accent" data-def="粉">默认</span></div>
+          <div class="ctl"><span class="ctl__k">正文宽</span>
+            <input class="ctl__range" type="range" min="440" max="760" step="8" value="582" data-theme="measure">
+            <span class="ctl__v" data-theme-out="measure" data-def="582">582</span></div>
+          <div class="ctl"><span class="ctl__k">字号</span>
+            <input class="ctl__range" type="range" min="14" max="22" step="0.5" value="15" data-theme="size">
+            <span class="ctl__v" data-theme-out="size" data-def="15">15</span></div>
+          <div class="ctl"><span class="ctl__k">行高</span>
+            <input class="ctl__range" type="range" min="1.4" max="2.2" step="0.05" value="1.75" data-theme="line">
+            <span class="ctl__v" data-theme-out="line" data-def="1.75">1.75</span></div>
+          <div class="ctl"><span class="ctl__k">字体</span>
+            <div class="seg" data-prop="theme-font">
+              <button class="seg__b on" data-val="">默认</button>
+              <button class="seg__b" data-val="serif">宋</button>
+              <button class="seg__b" data-val="mono">等宽</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="insp__foot">
+        <button class="btn btn--sm btn--danger btn--block" id="delete">删除这篇文章</button>
+      </div>
+    </aside>
+
+  </div>
 </div>
 
-<script src="/admin/admin.js"></script>
+<script src="/admin/core.js"></script>
+<script src="/admin/builder.js"></script>
+<script src="/admin/app.js"></script>
 </body>
 </html>
